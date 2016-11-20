@@ -130,7 +130,8 @@
 
 .block_user_results {
     width: 100%;
-    height: 230px;
+    margin-top: 25px;
+    height: 200px;
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -140,7 +141,7 @@
 
 .block_user_results > div {
     width: 33.33%;
-    text-align: left;
+    text-align: center;
     height: 100%;
     display: flex;
     align-items: center;
@@ -480,7 +481,9 @@
 }
 
 .fixed_headers td:nth-child(2),
-.fixed_headers td:nth-child(3) {
+.fixed_headers td:nth-child(3),
+.fixed_headers td:nth-child(4),
+.fixed_headers td:nth-child(5) {
     text-align: right;
 }
 
@@ -514,4 +517,8 @@
 
 .results_radius_sm {
     margin-left: 5px;
+}
+
+img.robot_scheme {
+    margin-top: 20px;
 }

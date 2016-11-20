@@ -1,10 +1,10 @@
 function init_lab() {
     var container,
-        default_animation_data = [
-            [0.01, 0.3, 3.5, 4, 6],
-            [1.01, 0.8, 3.5, 5, 7],
-            [2.02, 1.2, 3.6, 5.6, 8]
-        ],
+        default_animation_data = {table: [
+            [0.01, 0.3, 3.5, 4],
+            [1.01, 0.8, 3.5, 5],
+            [2.02, 1.2, 3.6, 5.6]
+        ]},
         help_slide_number = 0,
         lab_animation_data = [],
         experiment_time = 8,
@@ -28,7 +28,7 @@ function init_lab() {
         RIGHT_BOUND_TIME = 30,
         window = '<div class="vlab_setting"><div class="block_title"><div class="vlab_name">Динамика манипулятора М20П' +
             '</div><input class="btn_help btn" type="button" value="Справка"/></div><div class="block_robot">' +
-            '<canvas width="350px" height="300px" class="robot_canvas">браузер не поддерживает canvas</canvas>' +
+            '<img width="380px" class="robot_scheme" src="img/Lab_M20P_robot.gif" alt="Робот m20p"/>' +
             '<div class="robot_graphics"><div class="waiting_loading"></div></div><div class="robot_clock">00:<span class="clock_seconds"></span>' +
             '</div></div><div class="block_control">' +
             '<div class="robot_mass1"><i>m<sub>1</sub></i>: <span class="mass1_value"></span> кг</div>' +
@@ -44,22 +44,22 @@ function init_lab() {
             '<input class="control_stop btn" type="button" value="Стоп"/>' +
             '</div><div class="block_user_results">' +
             '<div class="results_q">' +
-            '<label for="control_q1"><i>q<sub>1</sub></i>:<input class="control_q1" id="control_q1" type="number" step="1"></label>' +
-            '<label for="control_q2"><i>q<sub>2</sub></i>:<input class="control_q2" id="control_q2" type="number" step="1"></label>' +
-            '<label for="control_q3"><i>q<sub>3</sub></i>:<input class="control_q3" id="control_q3" type="number" step="1"></label>' +
-            '<label for="control_q4"><i>q<sub>4</sub></i>:<input class="control_q4" id="control_q4" type="number" step="1"></label>' +
+            '<label for="control_q1"><i>q<sub>1</sub></i>:<input class="control_q1" id="control_q1" type="number" step="0.001"></label>' +
+            '<label for="control_q2"><i>q<sub>2</sub></i>:<input class="control_q2" id="control_q2" type="number" step="0.001"></label>' +
+            '<label for="control_q3"><i>q<sub>3</sub></i>:<input class="control_q3" id="control_q3" type="number" step="0.001"></label>' +
+            '<label for="control_q4"><i>q<sub>4</sub></i>:<input class="control_q4" id="control_q4" type="number" step="0.001"></label>' +
             '</div>' +
             '<div class="results_q_hatch">' +
-            '<label for="control_q1_hatch"><i>q<sub>1</sub>\'</i>:<input class="control_q1_hatch" id="control_q1_hatch" type="number" step="1"></label>' +
-            '<label for="control_q2_hatch"><i>q<sub>2</sub>\'</i>:<input class="control_q2_hatch" id="control_q2_hatch" type="number" step="1"></label>' +
-            '<label for="control_q3_hatch"><i>q<sub>3</sub>\'</i>:<input class="control_q3_hatch" id="control_q3_hatch" type="number" step="1"></label>' +
-            '<label for="control_q4_hatch"><i>q<sub>4</sub>\'</i>:<input class="control_q4_hatch" id="control_q4_hatch" type="number" step="1"></label>' +
+            '<label for="control_q1_hatch"><i>q<sub>1</sub>\'</i>:<input class="control_q1_hatch" id="control_q1_hatch" type="number" step="0.001"></label>' +
+            '<label for="control_q2_hatch"><i>q<sub>2</sub>\'</i>:<input class="control_q2_hatch" id="control_q2_hatch" type="number" step="0.001"></label>' +
+            '<label for="control_q3_hatch"><i>q<sub>3</sub>\'</i>:<input class="control_q3_hatch" id="control_q3_hatch" type="number" step="0.001"></label>' +
+            '<label for="control_q4_hatch"><i>q<sub>4</sub>\'</i>:<input class="control_q4_hatch" id="control_q4_hatch" type="number" step="0.001"></label>' +
             '</div>' +
             '<div class="results_q_2hatch">' +
-            '<label for="control_q1_2hatch"><i>q<sub>1</sub>\'\'</i>:<input class="control_q1_2hatch" id="control_q1_2hatch" type="number" step="1"></label>' +
-            '<label for="control_q2_2hatch"><i>q<sub>2</sub>\'\'</i>:<input class="control_q2_2hatch" id="control_q2_2hatch" type="number" step="1"></label>' +
-            '<label for="control_q3_2hatch"><i>q<sub>3</sub>\'\'</i>:<input class="control_q3_2hatch" id="control_q3_2hatch" type="number" step="1"></label>' +
-            '<label for="control_q4_2hatch"><i>q<sub>4</sub>\'\'</i>:<input class="control_q4_2hatch" id="control_q4_2hatch" type="number" step="1"></label>' +
+            '<label for="control_q1_2hatch"><i>q<sub>1</sub>\'\'</i>:<input class="control_q1_2hatch" id="control_q1_2hatch" type="number" step="0.001"></label>' +
+            '<label for="control_q2_2hatch"><i>q<sub>2</sub>\'\'</i>:<input class="control_q2_2hatch" id="control_q2_2hatch" type="number" step="0.001"></label>' +
+            '<label for="control_q3_2hatch"><i>q<sub>3</sub>\'\'</i>:<input class="control_q3_2hatch" id="control_q3_2hatch" type="number" step="0.001"></label>' +
+            '<label for="control_q4_2hatch"><i>q<sub>4</sub>\'\'</i>:<input class="control_q4_2hatch" id="control_q4_2hatch" type="number" step="0.001"></label>' +
             '</div>' +
             '</div>' +
             '<div class="block_graphics">' +
@@ -129,25 +129,25 @@ function init_lab() {
     }
 
     function draw_robot() {
-        var canvas = $(".robot_canvas")[0];
-        var ctx = canvas.getContext("2d");
-        ctx.globalCompositeOperation = 'source-over';
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = '#4f5e6d';
-        ctx.strokeStyle = '#000000';
-        ctx.save();
-        ctx.restore();
+        // var canvas = $(".robot_canvas")[0];
+        // var ctx = canvas.getContext("2d");
+        // ctx.globalCompositeOperation = 'source-over';
+        // ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // ctx.fillStyle = '#4f5e6d';
+        // ctx.strokeStyle = '#000000';
+        // ctx.save();
+        // ctx.restore();
     }
 
     function animate_robot(data, i) {
-        var canvas = $(".robot_canvas")[0];
-        var ctx = canvas.getContext("2d");
-        ctx.globalCompositeOperation = 'source-over';
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = '#4f5e6d';
-        ctx.strokeStyle = '#000000';
-        ctx.save();
-        ctx.restore();
+        // var canvas = $(".robot_canvas")[0];
+        // var ctx = canvas.getContext("2d");
+        // ctx.globalCompositeOperation = 'source-over';
+        // ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // ctx.fillStyle = '#4f5e6d';
+        // ctx.strokeStyle = '#000000';
+        // ctx.save();
+        // ctx.restore();
         var diff_time;
         if (i === 0) {
             diff_time = data[i][0] * 1000;
@@ -302,8 +302,7 @@ function init_lab() {
     function launch() {
         freeze_control_block();
         freeze_installation();
-        // ANT.calculate();
-        setTimeout(Vlab.calculateHandler, 3000)
+        ANT.calculate();
     }
 
     function change_duration_value() {
@@ -339,7 +338,6 @@ function init_lab() {
                 parse_str = false;
             }
         }
-        console.log(parse_str);
         return parse_str;
     }
 
@@ -354,7 +352,18 @@ function init_lab() {
     }
 
     function draw_previous_solution(previous_solution) {
-        
+        $(".control_q1").val(previous_solution.q[0]);
+        $(".control_q2").val(previous_solution.q[1]);
+        $(".control_q3").val(previous_solution.q[2]);
+        $(".control_q4").val(previous_solution.q[3]);
+        $(".control_q1_hatch").val(previous_solution.q_hatch[0]);
+        $(".control_q2_hatch").val(previous_solution.q_hatch[1]);
+        $(".control_q3_hatch").val(previous_solution.q_hatch[2]);
+        $(".control_q4_hatch").val(previous_solution.q_hatch[3]);
+        $(".control_q1_2hatch").val(previous_solution.q_2hatch[0]);
+        $(".control_q2_2hatch").val(previous_solution.q_2hatch[1]);
+        $(".control_q3_2hatch").val(previous_solution.q_2hatch[2]);
+        $(".control_q4_2hatch").val(previous_solution.q_2hatch[3]);
     }
 
     return {
@@ -450,6 +459,7 @@ function init_lab() {
         },
         calculateHandler: function () {
             lab_animation_data = parse_calculate_results(arguments[0], default_animation_data);
+            lab_animation_data = lab_animation_data.table;
             init_plot(lab_animation_data, ".graphic_q1 svg", 1);
             init_plot(lab_animation_data, ".graphic_q2 svg", 2);
             init_plot(lab_animation_data, ".graphic_q3 svg", 3);
@@ -466,7 +476,6 @@ function init_lab() {
                 q_hatch: [$(".control_q1_hatch").val(), $(".control_q2_hatch").val(), $(".control_q3_hatch").val(), $(".control_q4_hatch").val()],
                 q_2hatch: [$(".control_q1_2hatch").val(), $(".control_q2_2hatch").val(), $(".control_q3_2hatch").val(), $(".control_q4_2hatch").val()]
             };
-            console.log(answer);
             return JSON.stringify(answer);
         },
         getCondition: function () {
@@ -474,7 +483,6 @@ function init_lab() {
             condition = {
                 "S": experiment_time
             };
-            console.log(condition);
             return JSON.stringify(condition);
         }
     }
