@@ -60,7 +60,7 @@ public class CalculateMethod {
     public static double calculate_q_3(double time, double mass_1, double mass_2, double mass_3, double mass_4){
         final double Q_3 = 9.85*(mass_3 + mass_4);
         return (-0.5*g*mass_3*Math.pow(time, 2) - 0.5*g*mass_4*Math.pow(time, 2) +
-                0.1*(mass_3 + mass_4) + 0.5*Q_3*Math.pow(time, 2)) / (mass_3 + mass_4);
+                0.5*(mass_3 + mass_4) + 0.5*Q_3*Math.pow(time, 2)) / (mass_3 + mass_4);
     }
 
     public static double calculate_q_4(double time, double mass_1, double mass_2, double mass_3, double mass_4){
@@ -78,7 +78,7 @@ public class CalculateMethod {
 
     public static double calculate_q_hatch_3(double time, double mass_1, double mass_2, double mass_3, double mass_4){
         final double Q_3 = 9.85*(mass_3 + mass_4);
-        return (g*mass_3*time - g*mass_4*time + Q_3*time) / (mass_3 + mass_4);
+        return (-g*mass_3*time - g*mass_4*time + Q_3*time) / (mass_3 + mass_4);
     }
 
     public static double calculate_q_hatch_4(double time, double mass_1, double mass_2, double mass_3, double mass_4){

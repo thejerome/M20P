@@ -7,7 +7,7 @@ function init_lab() {
         ]},
         help_slide_number = 0,
         lab_animation_data = [],
-        experiment_time = 8,
+        experiment_time = 15,
         help_active = false,
         graphics_active = false,
         default_var = {
@@ -44,22 +44,22 @@ function init_lab() {
             '<input class="control_stop btn" type="button" value="Стоп"/>' +
             '</div><div class="block_user_results">' +
             '<div class="results_q">' +
-            '<label for="control_q1"><i>q<sub>1</sub></i>:<input class="control_q1" id="control_q1" type="number" step="0.001"></label>' +
-            '<label for="control_q2"><i>q<sub>2</sub></i>:<input class="control_q2" id="control_q2" type="number" step="0.001"></label>' +
-            '<label for="control_q3"><i>q<sub>3</sub></i>:<input class="control_q3" id="control_q3" type="number" step="0.001"></label>' +
-            '<label for="control_q4"><i>q<sub>4</sub></i>:<input class="control_q4" id="control_q4" type="number" step="0.001"></label>' +
+            '<label for="control_q1"><i>q<sub>1</sub></i>:<input class="control_q1" id="control_q1" type="number" step="0.0001"></label>' +
+            '<label for="control_q2"><i>q<sub>2</sub></i>:<input class="control_q2" id="control_q2" type="number" step="0.0001"></label>' +
+            '<label for="control_q3"><i>q<sub>3</sub></i>:<input class="control_q3" id="control_q3" type="number" step="0.0001"></label>' +
+            '<label for="control_q4"><i>q<sub>4</sub></i>:<input class="control_q4" id="control_q4" type="number" step="0.0001"></label>' +
             '</div>' +
             '<div class="results_q_hatch">' +
-            '<label for="control_q1_hatch"><i>q<sub>1</sub>\'</i>:<input class="control_q1_hatch" id="control_q1_hatch" type="number" step="0.001"></label>' +
-            '<label for="control_q2_hatch"><i>q<sub>2</sub>\'</i>:<input class="control_q2_hatch" id="control_q2_hatch" type="number" step="0.001"></label>' +
-            '<label for="control_q3_hatch"><i>q<sub>3</sub>\'</i>:<input class="control_q3_hatch" id="control_q3_hatch" type="number" step="0.001"></label>' +
-            '<label for="control_q4_hatch"><i>q<sub>4</sub>\'</i>:<input class="control_q4_hatch" id="control_q4_hatch" type="number" step="0.001"></label>' +
+            '<label for="control_q1_hatch"><i>q<sub>1</sub>\'</i>:<input class="control_q1_hatch" id="control_q1_hatch" type="number" step="0.0001"></label>' +
+            '<label for="control_q2_hatch"><i>q<sub>2</sub>\'</i>:<input class="control_q2_hatch" id="control_q2_hatch" type="number" step="0.0001"></label>' +
+            '<label for="control_q3_hatch"><i>q<sub>3</sub>\'</i>:<input class="control_q3_hatch" id="control_q3_hatch" type="number" step="0.0001"></label>' +
+            '<label for="control_q4_hatch"><i>q<sub>4</sub>\'</i>:<input class="control_q4_hatch" id="control_q4_hatch" type="number" step="0.0001"></label>' +
             '</div>' +
             '<div class="results_q_2hatch">' +
-            '<label for="control_q1_2hatch"><i>q<sub>1</sub>\'\'</i>:<input class="control_q1_2hatch" id="control_q1_2hatch" type="number" step="0.001"></label>' +
-            '<label for="control_q2_2hatch"><i>q<sub>2</sub>\'\'</i>:<input class="control_q2_2hatch" id="control_q2_2hatch" type="number" step="0.001"></label>' +
-            '<label for="control_q3_2hatch"><i>q<sub>3</sub>\'\'</i>:<input class="control_q3_2hatch" id="control_q3_2hatch" type="number" step="0.001"></label>' +
-            '<label for="control_q4_2hatch"><i>q<sub>4</sub>\'\'</i>:<input class="control_q4_2hatch" id="control_q4_2hatch" type="number" step="0.001"></label>' +
+            '<label for="control_q1_2hatch"><i>q<sub>1</sub>\'\'</i>:<input class="control_q1_2hatch" id="control_q1_2hatch" type="number" step="0.0001"></label>' +
+            '<label for="control_q2_2hatch"><i>q<sub>2</sub>\'\'</i>:<input class="control_q2_2hatch" id="control_q2_2hatch" type="number" step="0.0001"></label>' +
+            '<label for="control_q3_2hatch"><i>q<sub>3</sub>\'\'</i>:<input class="control_q3_2hatch" id="control_q3_2hatch" type="number" step="0.0001"></label>' +
+            '<label for="control_q4_2hatch"><i>q<sub>4</sub>\'\'</i>:<input class="control_q4_2hatch" id="control_q4_2hatch" type="number" step="0.0001"></label>' +
             '</div>' +
             '</div>' +
             '<div class="block_graphics">' +
@@ -171,10 +171,10 @@ function init_lab() {
     function init_experiment_table(table_selector, data) {
         $(table_selector).empty();
         for (var i = 0; i < data.length; i++) {
-            $(table_selector).append("<tr><td>" + data[i][0].toFixed(2) + "</td><td><span class='cell_right_align'>" + data[i][1].toFixed(7) +
-                "</span></td><td><span class='cell_right_align'>" + data[i][2].toFixed(7) + "</span></td>" +
-                "<td><span class='cell_right_align'>" + data[i][3].toFixed(7) + "</span></td>" +
-                "<td><span class='cell_right_align'>" + data[i][4].toFixed(7) + "</span></td></tr>");
+            $(table_selector).append("<tr><td>" + data[i][0].toFixed(2) + "</td><td><span class='cell_right_align'>" + data[i][1].toFixed(4) +
+                "</span></td><td><span class='cell_right_align'>" + data[i][2].toFixed(4) + "</span></td>" +
+                "<td><span class='cell_right_align'>" + data[i][3].toFixed(4) + "</span></td>" +
+                "<td><span class='cell_right_align'>" + data[i][4].toFixed(4) + "</span></td></tr>");
         }
     }
 

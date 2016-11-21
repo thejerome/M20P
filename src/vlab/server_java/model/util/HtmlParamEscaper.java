@@ -101,6 +101,6 @@ public class HtmlParamEscaper {
         if (v == null) {
             v = BigDecimal.ZERO;
         }
-        return v.setScale(6, BigDecimal.ROUND_HALF_UP);
+        return v.setScale(4, BigDecimal.ROUND_HALF_UP);
     }
 }

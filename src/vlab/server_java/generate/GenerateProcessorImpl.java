@@ -34,7 +34,7 @@ public class GenerateProcessorImpl implements GenerateProcessor {
             int mass_3 = getRandomIntegerBetween(mass_4, mass_4 + 20);
             int mass_2 = getRandomIntegerBetween(mass_3 + mass_4, mass_3 + mass_4 + 30);
             int mass_1 = getRandomIntegerBetween(mass_2 + mass_3 + mass_4, mass_2 + mass_3 + mass_4 + 50);
-            int time = getRandomIntegerBetween(1, 30);
+            int time = getRandomIntegerBetween(10, 30);
             double q_1 = CalculateMethod.calculate_q_1(time, mass_1, mass_2, mass_3, mass_4);
             double q_2 = CalculateMethod.calculate_q_2(time, mass_1, mass_2, mass_3, mass_4);
             double q_3 = CalculateMethod.calculate_q_3(time, mass_1, mass_2, mass_3, mass_4);
