@@ -1,16 +1,16 @@
 function init_lab() {
     var container,
         default_animation_data = {table: [
-            [0.01, 0.3, 3.5, 4],
-            [1.01, 0.8, 3.5, 5],
-            [2.02, 1.2, 3.6, 5.6]
+            [0.01, 0.3, 3.5, 4, 6],
+            [1.01, 0.8, 3.5, 5, 6],
+            [2.02, 1.2, 3.6, 5.6, 8]
         ]},
         help_slide_number = 0,
         lab_animation_data = [],
         experiment_time = 15,
         help_active = false,
         graphics_active = false,
-        default_var = {
+        default_variant = {
             "mass_1":  30,
             "mass_2":  15,
             "mass_3":  8,
@@ -28,8 +28,8 @@ function init_lab() {
         RIGHT_BOUND_TIME = 30,
         window = '<div class="vlab_setting"><div class="block_title"><div class="vlab_name">Динамика манипулятора М20П' +
             '</div><input class="btn_help btn" type="button" value="Справка"/></div><div class="block_robot">' +
-            '<img width="380px" class="robot_scheme" src="img/Lab_M20P_robot.gif" alt="Робот m20p"/>' +
-            '<div class="robot_graphics"><div class="waiting_loading"></div></div><div class="robot_clock">00:<span class="clock_seconds"></span>' +
+            '<div class="robot_scheme"></div>' +
+            '<div class="robot_graphics"><canvas class="robot_graphics_canvas" width="80" height="50"></canvas><div class="waiting_loading"></div></div><div class="robot_clock">00:<span class="clock_seconds"></span>' +
             '</div></div><div class="block_control">' +
             '<div class="robot_mass1"><i>m<sub>1</sub></i>: <span class="mass1_value"></span> кг</div>' +
             '<div class="robot_mass2"><i>m<sub>2</sub></i>: <span class="mass2_value"></span> кг</div>' +
@@ -82,8 +82,22 @@ function init_lab() {
             '<div class="graphic_q4 graphic"><svg width="600" height="220"></svg></div>' +
             '</div><div class="block_help">' +
             '<h1>Помощь по работе в виртуальной лаборатории</h1>' +
-            '<input class="btn not_active slide_back" type="button" value="Назад" />' +
-            '<input class="btn slide_next" type="button" value="Далее" />' +
+            '<p>Уважаемый слушатель массового открытого онлайн-курса «Модели и методы аналитической механики»!</p>' +
+            '<p>Вы находитесь в виртуальной лаборатории, где Вашему вниманию предлагается модель промышленного робота M20P. ' +
+            'Целью выполнения работы является определение  обобщенных координат, скоростей и ускорений в момент времени.</p>' +
+            '<p>На рисунке изображена схема робота. <img src="img/Lab_M20P_robot.png" width="400"/> Обобщенная координата <i>q<sub>1</sub></i> соответстует углу' +
+            ' поворота стойки &phi;<sub>1</sub>. ' +
+            'Обобщенная координата <i>q<sub>2</sub></i> соответстует изменению расстояния <i>S</i><sub>1</sub>. Обобщенная координата <i>q<sub>3</sub></i> соответстует ' +
+            'изменению расстояния <i>S</i><sub>2</sub>. ' +
+            'Обобщенная координата <i>q<sub>4</sub></i> соответстует углу поворота схвата &phi;<sub>2</sub>.</p>' +
+            '<p>Для проведения эксперимента Вы можете увеличить или уменьшить продолжительность эксперимента <i>S</i> с помощью движка. ' +
+            'Изменение отобразится на модели робота. После выбора подходящего значения осуществите эксперимент, нажав на кнопку «Запустить».</p>' +
+            '<p>Чтобы закончить эксперимент заранее, нажмите кнопку «Стоп». Для просмотра результатов необходимо нажать на экран на установке.</p>' +
+            '<p>Чтобы посмотреть графики зависимостей обобщенных координат от времени, нажмите соответствующие кнопки. ' +
+            'Точные значения следует смотреть в таблице результатов. Для перехода к ней или возвращения к установке также нажмите кнопки.</p>' +
+            '<p>Занесите в нужные поля точные значения обобщенных координат, взятые из таблицы результатов. Вычислите зачения обобщенных скоростей и ускорений,' +
+            ' также поместив их в ячейки. Вычисления необходимо проводить с точностью до 0,0001.</p>' +
+            '<p>Желаем удачи в выполнении виртуальной лабораторной работы!</p>' +
             '</div></div>';
 
     function freeze_control_block() {
@@ -123,50 +137,98 @@ function init_lab() {
     function stop_animation() {
         clearTimeout(robot_timeout);
         clearTimeout(clock_timeout);
-        draw_robot();
+        draw_robot(0, 0, 0, 0);
         put_seconds(0);
         unfreeze_control_block();
     }
 
-    function draw_robot() {
-        // var canvas = $(".robot_canvas")[0];
-        // var ctx = canvas.getContext("2d");
-        // ctx.globalCompositeOperation = 'source-over';
-        // ctx.clearRect(0, 0, canvas.width, canvas.height);
-        // ctx.fillStyle = '#4f5e6d';
-        // ctx.strokeStyle = '#000000';
-        // ctx.save();
-        // ctx.restore();
+    function draw_robot(q_1, q_2, q_3, q_4) {
+        $(".robot_scheme").empty();
+        var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera(80, 1, 1, 1000);
+        var renderer = new THREE.WebGLRenderer();
+        var material_light_grey = new THREE.MeshBasicMaterial( {color: 0xeeeeee} );
+        var material_dark_grey = new THREE.MeshBasicMaterial( {color: 0x3d4652} );
+        var material_middle_grey = new THREE.MeshBasicMaterial( {color: 0xd0cdcd} );
+        var cylinder_0 = new THREE.Mesh(new THREE.CylinderGeometry(2, 2, 50, 100), material_light_grey);
+        var cylinder_1 = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 15, 100), material_light_grey);
+        var cube_0 = new THREE.Mesh(new THREE.BoxGeometry(25, 2, 25), material_dark_grey);
+        var cube_1 = new THREE.Mesh(new THREE.BoxGeometry(14, 5, 14), material_middle_grey);
+        var cube_2 = new THREE.Mesh(new THREE.BoxGeometry(4, 2, 1), material_middle_grey);
+        var cube_3 = new THREE.Mesh(new THREE.BoxGeometry(5, 2, 1), material_middle_grey);
+        var cube_4 = new THREE.Mesh(new THREE.BoxGeometry(4, 2, 1), material_middle_grey);
+        renderer.setClearColor(0xffffff);
+        renderer.setSize(300, 300);
+        $(".robot_scheme").append(renderer.domElement);
+        scene.add(cylinder_1);
+        scene.add(cylinder_0);
+        scene.add(cube_1);
+        scene.add(cube_0);
+        scene.add(cube_2);
+        scene.add(cube_3);
+        scene.add(cube_4);
+        camera.position.z = 45;
+        cube_1.position.x = 2;
+        cube_1.position.y = 15;
+        cube_0.position.y = -25;
+        cylinder_1.position.x = 6;
+        cylinder_1.position.z = 12;
+        cylinder_1.position.y = 15;
+        cube_2.position.y = 15;
+        cube_3.position.y = 15;
+        cube_4.position.y = 15;
+        cube_2.position.x = 3.5;
+        cube_2.position.z = 21.5;
+        cube_3.position.x = 6;
+        cube_3.position.z = 20;
+        cube_4.position.x = 8.5;
+        cube_4.position.z = 21.5;
+        cylinder_1.rotation.x = Math.PI/2;
+        cube_2.rotation.y = Math.PI/2;
+        cube_4.rotation.y = Math.PI/2;
+        renderer.render(scene, camera);
     }
 
-    function animate_robot(data, i) {
-        // var canvas = $(".robot_canvas")[0];
-        // var ctx = canvas.getContext("2d");
-        // ctx.globalCompositeOperation = 'source-over';
-        // ctx.clearRect(0, 0, canvas.width, canvas.height);
-        // ctx.fillStyle = '#4f5e6d';
-        // ctx.strokeStyle = '#000000';
-        // ctx.save();
-        // ctx.restore();
-        var diff_time;
-        if (i === 0) {
-            diff_time = data[i][0] * 1000;
-        } else {
-            diff_time = (data[i][0] - data[i - 1][0]) * 1000;
-        }
-        i++;
-        if (i < data.length) {
-            robot_timeout = setTimeout(function () {
-                animate_robot(data, i)
-            }, diff_time);
-        } else {
-            robot_timeout = setTimeout(function () {
-                draw_robot();
-                unfreeze_control_block();
-            }, diff_time);
-        }
-    }
+    // function animate_robot(data, i) {
+    //     var diff_time;
+    //     if (i === 0) {
+    //         diff_time = data[i][0] * 1000;
+    //     } else {
+    //         diff_time = (data[i][0] - data[i - 1][0]) * 1000;
+    //     }
+    //     i++;
+    //     if (i < data.length) {
+    //         robot_timeout = setTimeout(function () {
+    //             draw_robot(data[i][1], data[i][2], data[i][3], data[i][4]);
+    //             animate_robot(data, i);
+    //         }, diff_time);
+    //     } else {
+    //         robot_timeout = setTimeout(function () {
+    //             draw_robot(0, 0, 0, 0);
+    //             unfreeze_control_block();
+    //         }, diff_time);
+    //     }
+    // }
 
+    function draw_small_plot() {
+        var canvas = $(".robot_graphics_canvas")[0];
+        var ctx = canvas.getContext("2d");
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.strokeStyle = '#000000';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(5, canvas.height - 5);
+        ctx.lineTo(75, canvas.height - 5);
+        ctx.moveTo(5, canvas.height - 5);
+        ctx.lineTo(5, 5);
+        ctx.stroke();
+        ctx.strokeStyle = '#af261c';
+        ctx.beginPath();
+        ctx.moveTo(5, canvas.height - 5);
+        ctx.lineTo(75, 5);
+        ctx.stroke();
+    }
 
     function init_experiment_table(table_selector, data) {
         $(table_selector).empty();
@@ -238,7 +300,7 @@ function init_lab() {
 
         vis.append("svg:path")
             .attr("d", lineFunc(data))
-            .attr("stroke", "blue")
+            .attr("stroke", "#af261c")
             .attr("stroke-width", 2)
             .attr("fill", "none");
     }
@@ -272,7 +334,6 @@ function init_lab() {
         $(graphic_show).css("display", "block");
     }
 
-
     function animate_clock(t) {
         if (t >= 1) {
             clock_timeout = setTimeout(function () {
@@ -280,6 +341,8 @@ function init_lab() {
                 put_seconds(t);
                 animate_clock(t)
             }, 1000);
+        } else {
+            unfreeze_control_block();
         }
     }
 
@@ -296,7 +359,7 @@ function init_lab() {
     function animate_installation() {
         put_seconds(experiment_time);
         animate_clock(experiment_time);
-        animate_robot(lab_animation_data, 0)
+        // animate_robot(lab_animation_data, 0);
     }
 
     function launch() {
@@ -344,9 +407,9 @@ function init_lab() {
     function get_variant() {
         var variant;
         if ($("#preGeneratedCode") !== null) {
-            variant = parse_calculate_results($("#preGeneratedCode").val(), default_var);
+            variant = parse_calculate_results($("#preGeneratedCode").val(), default_variant);
         } else {
-            variant = default_var;
+            variant = default_variant;
         }
         return variant;
     }
@@ -371,6 +434,7 @@ function init_lab() {
             lab_variant = get_variant();
             container = $("#jsLab")[0];
             container.innerHTML = window;
+            draw_robot(0, 0, 0, 0);
             $(".control_stop").addClass("not_active");
             $(".mass1_value").html(lab_variant.mass_1);
             $(".mass2_value").html(lab_variant.mass_2);
@@ -380,7 +444,7 @@ function init_lab() {
             $("#control_duration_slider").attr("value", experiment_time);
             $(".control_duration_value").attr("value", experiment_time);
             put_seconds(experiment_time);
-            draw_robot();
+            draw_small_plot();
             if ($("#previousSolution") !== null && $("#previousSolution").length > 0 && parse_calculate_results($("#previousSolution").val())) {
                 var previous_solution = parse_calculate_results($("#previousSolution").val());
                 draw_previous_solution(previous_solution);
@@ -455,7 +519,7 @@ function init_lab() {
                         $(this).addClass("not_active")
                     }
                 }
-            })
+            });
         },
         calculateHandler: function () {
             lab_animation_data = parse_calculate_results(arguments[0], default_animation_data);

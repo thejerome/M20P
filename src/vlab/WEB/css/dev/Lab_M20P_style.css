@@ -247,6 +247,8 @@
 .block_help img {
     vertical-align: middle;
     margin-left: 20px;
+    margin-right: 20px;
+    float: left;
 }
 
 .block_help .help_slide > img {
@@ -343,6 +345,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.robot_graphics.active_waiting canvas{
+    display: none;
 }
 
 .robot_graphics.active_waiting .waiting_loading {
@@ -519,6 +525,10 @@
     margin-left: 5px;
 }
 
-img.robot_scheme {
-    margin-top: 20px;
+.robot_graphics {
+    position: relative;
+}
+
+.robot_graphics > canvas {
+    position: absolute;
 }
