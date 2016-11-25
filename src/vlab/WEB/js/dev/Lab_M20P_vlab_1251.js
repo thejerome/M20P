@@ -26,24 +26,24 @@ function init_lab() {
         clock_timeout,
         LEFT_BOUND_TIME = 1,
         RIGHT_BOUND_TIME = 30,
-        window = '<div class="vlab_setting"><div class="block_title"><div class="vlab_name">Р”РёРЅР°РјРёРєР° РјР°РЅРёРїСѓР»СЏС‚РѕСЂР° Рњ20Рџ' +
-            '</div><input class="btn_help btn" type="button" value="РЎРїСЂР°РІРєР°"/></div><div class="block_robot">' +
+        window = '<div class="vlab_setting"><div class="block_title"><div class="vlab_name">Динамика манипулятора М20П' +
+            '</div><input class="btn_help btn" type="button" value="Справка"/></div><div class="block_robot">' +
             '<div class="robot_scheme"></div>' +
             '<div class="robot_graphics"><canvas class="robot_graphics_canvas" width="80" height="50"></canvas><div class="waiting_loading">' +
             '<img src="img/Lab_M20P_hourglass.png" width="38" height="38"/></div></div>' +
             '<div class="robot_clock">00:<span class="clock_seconds"></span>' +
             '</div></div><div class="block_control">' +
-            '<div class="robot_mass1"><i>m<sub>1</sub></i>: <span class="mass1_value"></span> РєРі</div>' +
-            '<div class="robot_mass2"><i>m<sub>2</sub></i>: <span class="mass2_value"></span> РєРі</div>' +
-            '<div class="robot_mass3"><i>m<sub>3</sub></i>: <span class="mass3_value"></span> РєРі</div>' +
-            '<div class="robot_mass4"><i>m<sub>4</sub></i>: <span class="mass4_value"></span> РєРі</div>' +
-            '<div class="robot_time"><i>t<sub></sub></i>: <span class="time_value"></span> СЃ</div>' +
-            '<label for="control_duration_slider">РџСЂРѕРґРѕР»Р¶РёС‚РµР»СЊРЅРѕСЃС‚СЊ СЌРєСЃРїРµСЂРёРјРµРЅС‚Р° <i>S</i>:</label>' +
+            '<div class="robot_mass1"><i>m<sub>1</sub></i>: <span class="mass1_value"></span> кг</div>' +
+            '<div class="robot_mass2"><i>m<sub>2</sub></i>: <span class="mass2_value"></span> кг</div>' +
+            '<div class="robot_mass3"><i>m<sub>3</sub></i>: <span class="mass3_value"></span> кг</div>' +
+            '<div class="robot_mass4"><i>m<sub>4</sub></i>: <span class="mass4_value"></span> кг</div>' +
+            '<div class="robot_time"><i>t<sub></sub></i>: <span class="time_value"></span> с</div>' +
+            '<label for="control_duration_slider">Продолжительность эксперимента <i>S</i>:</label>' +
             '<input class="control_duration_slider" id="control_duration_slider" type="range" ' +
             'max="' + RIGHT_BOUND_TIME + '" min="' + LEFT_BOUND_TIME + '" step="1"/>' +
             '<input class="control_duration_value" type="number" step="1" min="'+ LEFT_BOUND_TIME + '" max="' + RIGHT_BOUND_TIME + '"> c' +
-            '<input class="control_launch btn" type="button" value="Р—Р°РїСѓСЃС‚РёС‚СЊ"/>' +
-            '<input class="control_stop btn" type="button" value="РЎС‚РѕРї"/>' +
+            '<input class="control_launch btn" type="button" value="Запустить"/>' +
+            '<input class="control_stop btn" type="button" value="Стоп"/>' +
             '</div><div class="block_user_results">' +
             '<div class="results_q">' +
             '<label for="control_q1"><i>q<sub>1</sub></i>:<input class="control_q1" id="control_q1" type="number" step="0.0001"></label>' +
@@ -65,14 +65,14 @@ function init_lab() {
             '</div>' +
             '</div>' +
             '<div class="block_graphics">' +
-            '<input class="show_experiment_table btn" type="button" value="РўР°Р±Р»РёС†Р° Р·РЅР°С‡РµРЅРёР№"/>' +
+            '<input class="show_experiment_table btn" type="button" value="Таблица значений"/>' +
             '<button class="show_graphic_q1 btn" type="button"><i>q<sub>1</sub></i>(<i>t</i>)</button>' +
             '<button class="show_graphic_q2 btn" type="button"><i>q<sub>2</sub></i>(<i>t</i>)</button>' +
             '<button class="show_graphic_q3 btn" type="button"><i>q<sub>3</sub></i>(<i>t</i>)</button>' +
             '<button class="show_graphic_q4 btn" type="button"><i>q<sub>4</sub></i>(<i>t</i>)</button>' +
-            '<input class="close_graphics btn" type="button" value="Р’РµСЂРЅСѓС‚СЊСЃСЏ"/>' +
+            '<input class="close_graphics btn" type="button" value="Вернуться"/>' +
             '<div class="experiment_table graphic">' +
-            '<table class="fixed_headers"><thead><tr><th>Р’СЂРµРјСЏ <i>t</i>, СЃ</th>' +
+            '<table class="fixed_headers"><thead><tr><th>Время <i>t</i>, с</th>' +
             '<th><i>q<sub>1</sub></i>(<i>t</i>)</th>' +
             '<th><i>q<sub>2</sub></i>(<i>t</i>)</th>' +
             '<th><i>q<sub>3</sub></i>(<i>t</i>)</th>' +
@@ -83,23 +83,23 @@ function init_lab() {
             '<div class="graphic_q3 graphic"><svg width="600" height="220"></svg></div>' +
             '<div class="graphic_q4 graphic"><svg width="600" height="220"></svg></div>' +
             '</div><div class="block_help">' +
-            '<h1>РџРѕРјРѕС‰СЊ РїРѕ СЂР°Р±РѕС‚Рµ РІ РІРёСЂС‚СѓР°Р»СЊРЅРѕР№ Р»Р°Р±РѕСЂР°С‚РѕСЂРёРё</h1>' +
-            '<p>РЈРІР°Р¶Р°РµРјС‹Р№ СЃР»СѓС€Р°С‚РµР»СЊ РјР°СЃСЃРѕРІРѕРіРѕ РѕС‚РєСЂС‹С‚РѕРіРѕ РѕРЅР»Р°Р№РЅ-РєСѓСЂСЃР° В«РњРѕРґРµР»Рё Рё РјРµС‚РѕРґС‹ Р°РЅР°Р»РёС‚РёС‡РµСЃРєРѕР№ РјРµС…Р°РЅРёРєРёВ»!</p>' +
-            '<p>Р’С‹ РЅР°С…РѕРґРёС‚РµСЃСЊ РІ РІРёСЂС‚СѓР°Р»СЊРЅРѕР№ Р»Р°Р±РѕСЂР°С‚РѕСЂРёРё, РіРґРµ Р’Р°С€РµРјСѓ РІРЅРёРјР°РЅРёСЋ РїСЂРµРґР»Р°РіР°РµС‚СЃСЏ РјРѕРґРµР»СЊ РїСЂРѕРјС‹С€Р»РµРЅРЅРѕРіРѕ СЂРѕР±РѕС‚Р° M20P. ' +
-            'Р¦РµР»СЊСЋ РІС‹РїРѕР»РЅРµРЅРёСЏ СЂР°Р±РѕС‚С‹ СЏРІР»СЏРµС‚СЃСЏ РѕРїСЂРµРґРµР»РµРЅРёРµ  РѕР±РѕР±С‰РµРЅРЅС‹С… РєРѕРѕСЂРґРёРЅР°С‚, СЃРєРѕСЂРѕСЃС‚РµР№ Рё СѓСЃРєРѕСЂРµРЅРёР№ РІ РјРѕРјРµРЅС‚ РІСЂРµРјРµРЅРё.</p>' +
-            '<p>РќР° СЂРёСЃСѓРЅРєРµ РёР·РѕР±СЂР°Р¶РµРЅР° СЃС…РµРјР° СЂРѕР±РѕС‚Р°. <img src="img/Lab_M20P_robot.png" width="400"/> РћР±РѕР±С‰РµРЅРЅР°СЏ РєРѕРѕСЂРґРёРЅР°С‚Р° <i>q<sub>1</sub></i> СЃРѕРѕС‚РІРµС‚СЃС‚СѓРµС‚ СѓРіР»Сѓ' +
-            ' РїРѕРІРѕСЂРѕС‚Р° СЃС‚РѕР№РєРё &phi;<sub>1</sub>. ' +
-            'РћР±РѕР±С‰РµРЅРЅР°СЏ РєРѕРѕСЂРґРёРЅР°С‚Р° <i>q<sub>2</sub></i> СЃРѕРѕС‚РІРµС‚СЃС‚СѓРµС‚ РёР·РјРµРЅРµРЅРёСЋ СЂР°СЃСЃС‚РѕСЏРЅРёСЏ <i>S</i><sub>1</sub>. РћР±РѕР±С‰РµРЅРЅР°СЏ РєРѕРѕСЂРґРёРЅР°С‚Р° <i>q<sub>3</sub></i> СЃРѕРѕС‚РІРµС‚СЃС‚СѓРµС‚ ' +
-            'РёР·РјРµРЅРµРЅРёСЋ СЂР°СЃСЃС‚РѕСЏРЅРёСЏ <i>S</i><sub>2</sub>. ' +
-            'РћР±РѕР±С‰РµРЅРЅР°СЏ РєРѕРѕСЂРґРёРЅР°С‚Р° <i>q<sub>4</sub></i> СЃРѕРѕС‚РІРµС‚СЃС‚СѓРµС‚ СѓРіР»Сѓ РїРѕРІРѕСЂРѕС‚Р° СЃС…РІР°С‚Р° &phi;<sub>2</sub>.</p>' +
-            '<p>Р”Р»СЏ РїСЂРѕРІРµРґРµРЅРёСЏ СЌРєСЃРїРµСЂРёРјРµРЅС‚Р° Р’С‹ РјРѕР¶РµС‚Рµ СѓРІРµР»РёС‡РёС‚СЊ РёР»Рё СѓРјРµРЅСЊС€РёС‚СЊ РїСЂРѕРґРѕР»Р¶РёС‚РµР»СЊРЅРѕСЃС‚СЊ СЌРєСЃРїРµСЂРёРјРµРЅС‚Р° <i>S</i> СЃ РїРѕРјРѕС‰СЊСЋ РґРІРёР¶РєР°. ' +
-            'РР·РјРµРЅРµРЅРёРµ РѕС‚РѕР±СЂР°Р·РёС‚СЃСЏ РЅР° РјРѕРґРµР»Рё СЂРѕР±РѕС‚Р°. РџРѕСЃР»Рµ РІС‹Р±РѕСЂР° РїРѕРґС…РѕРґСЏС‰РµРіРѕ Р·РЅР°С‡РµРЅРёСЏ РѕСЃСѓС‰РµСЃС‚РІРёС‚Рµ СЌРєСЃРїРµСЂРёРјРµРЅС‚, РЅР°Р¶Р°РІ РЅР° РєРЅРѕРїРєСѓ В«Р—Р°РїСѓСЃС‚РёС‚СЊВ».</p>' +
-            '<p>Р§С‚РѕР±С‹ Р·Р°РєРѕРЅС‡РёС‚СЊ СЌРєСЃРїРµСЂРёРјРµРЅС‚ Р·Р°СЂР°РЅРµРµ, РЅР°Р¶РјРёС‚Рµ РєРЅРѕРїРєСѓ В«РЎС‚РѕРїВ». Р”Р»СЏ РїСЂРѕСЃРјРѕС‚СЂР° СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ РЅРµРѕР±С…РѕРґРёРјРѕ РЅР°Р¶Р°С‚СЊ РЅР° СЌРєСЂР°РЅ РЅР° СѓСЃС‚Р°РЅРѕРІРєРµ.</p>' +
-            '<p>Р§С‚РѕР±С‹ РїРѕСЃРјРѕС‚СЂРµС‚СЊ РіСЂР°С„РёРєРё Р·Р°РІРёСЃРёРјРѕСЃС‚РµР№ РѕР±РѕР±С‰РµРЅРЅС‹С… РєРѕРѕСЂРґРёРЅР°С‚ РѕС‚ РІСЂРµРјРµРЅРё, РЅР°Р¶РјРёС‚Рµ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёРµ РєРЅРѕРїРєРё. ' +
-            'РўРѕС‡РЅС‹Рµ Р·РЅР°С‡РµРЅРёСЏ СЃР»РµРґСѓРµС‚ СЃРјРѕС‚СЂРµС‚СЊ РІ С‚Р°Р±Р»РёС†Рµ СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ. Р”Р»СЏ РїРµСЂРµС…РѕРґР° Рє РЅРµР№ РёР»Рё РІРѕР·РІСЂР°С‰РµРЅРёСЏ Рє СѓСЃС‚Р°РЅРѕРІРєРµ С‚Р°РєР¶Рµ РЅР°Р¶РјРёС‚Рµ РєРЅРѕРїРєРё.</p>' +
-            '<p>Р—Р°РЅРµСЃРёС‚Рµ РІ РЅСѓР¶РЅС‹Рµ РїРѕР»СЏ С‚РѕС‡РЅС‹Рµ Р·РЅР°С‡РµРЅРёСЏ РѕР±РѕР±С‰РµРЅРЅС‹С… РєРѕРѕСЂРґРёРЅР°С‚, РІР·СЏС‚С‹Рµ РёР· С‚Р°Р±Р»РёС†С‹ СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ. Р’С‹С‡РёСЃР»РёС‚Рµ Р·Р°С‡РµРЅРёСЏ РѕР±РѕР±С‰РµРЅРЅС‹С… СЃРєРѕСЂРѕСЃС‚РµР№ Рё СѓСЃРєРѕСЂРµРЅРёР№,' +
-            ' С‚Р°РєР¶Рµ РїРѕРјРµСЃС‚РёРІ РёС… РІ СЏС‡РµР№РєРё. Р’С‹С‡РёСЃР»РµРЅРёСЏ РЅРµРѕР±С…РѕРґРёРјРѕ РїСЂРѕРІРѕРґРёС‚СЊ СЃ С‚РѕС‡РЅРѕСЃС‚СЊСЋ РґРѕ 0,0001.</p>' +
-            '<p>Р–РµР»Р°РµРј СѓРґР°С‡Рё РІ РІС‹РїРѕР»РЅРµРЅРёРё РІРёСЂС‚СѓР°Р»СЊРЅРѕР№ Р»Р°Р±РѕСЂР°С‚РѕСЂРЅРѕР№ СЂР°Р±РѕС‚С‹!</p>' +
+            '<h1>Помощь по работе в виртуальной лаборатории</h1>' +
+            '<p>Уважаемый слушатель массового открытого онлайн-курса «Модели и методы аналитической механики»!</p>' +
+            '<p>Вы находитесь в виртуальной лаборатории, где Вашему вниманию предлагается модель промышленного робота M20P. ' +
+            'Целью выполнения работы является определение  обобщенных координат, скоростей и ускорений в момент времени.</p>' +
+            '<p>На рисунке изображена схема робота. <img src="img/Lab_M20P_robot.png" width="400"/> Обобщенная координата <i>q<sub>1</sub></i> соответстует углу' +
+            ' поворота стойки &phi;<sub>1</sub>. ' +
+            'Обобщенная координата <i>q<sub>2</sub></i> соответстует изменению расстояния <i>S</i><sub>1</sub>. Обобщенная координата <i>q<sub>3</sub></i> соответстует ' +
+            'изменению расстояния <i>S</i><sub>2</sub>. ' +
+            'Обобщенная координата <i>q<sub>4</sub></i> соответстует углу поворота схвата &phi;<sub>2</sub>.</p>' +
+            '<p>Для проведения эксперимента Вы можете увеличить или уменьшить продолжительность эксперимента <i>S</i> с помощью движка. ' +
+            'Изменение отобразится на модели робота. После выбора подходящего значения осуществите эксперимент, нажав на кнопку «Запустить».</p>' +
+            '<p>Чтобы закончить эксперимент заранее, нажмите кнопку «Стоп». Для просмотра результатов необходимо нажать на экран на установке.</p>' +
+            '<p>Чтобы посмотреть графики зависимостей обобщенных координат от времени, нажмите соответствующие кнопки. ' +
+            'Точные значения следует смотреть в таблице результатов. Для перехода к ней или возвращения к установке также нажмите кнопки.</p>' +
+            '<p>Занесите в нужные поля точные значения обобщенных координат, взятые из таблицы результатов. Вычислите зачения обобщенных скоростей и ускорений,' +
+            ' также поместив их в ячейки. Вычисления необходимо проводить с точностью до 0,0001.</p>' +
+            '<p>Желаем удачи в выполнении виртуальной лабораторной работы!</p>' +
             '</div></div>';
 
     function freeze_control_block() {
@@ -323,11 +323,11 @@ function init_lab() {
         if (!help_active) {
             help_active = true;
             $(".block_help").css("display", "block");
-            $(".btn_help").attr("value", "Р’РµСЂРЅСѓС‚СЊСЃСЏ");
+            $(".btn_help").attr("value", "Вернуться");
         } else {
             help_active = false;
             $(".block_help").css("display", "none");
-            $(".btn_help").attr("value", "РЎРїСЂР°РІРєР°");
+            $(".btn_help").attr("value", "Справка");
         }
     }
 

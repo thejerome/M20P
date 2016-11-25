@@ -92,6 +92,7 @@
 
 .block_control > div {
     width: 90%;
+    text-align: left;
     margin-bottom: 10px;
 }
 
@@ -356,9 +357,6 @@
     padding: 0;
     width: 38px;
     height: 38px;
-    background-size: contain;
-    background-image: url(img/Lab_M20P_hourglass.png);
-    background-repeat: no-repeat;
     -webkit-animation-name: rotation;
     -webkit-animation-duration: 2s;
     -webkit-animation-iteration-count: infinite;
@@ -529,6 +527,6 @@
     position: relative;
 }
 
-.robot_graphics > canvas {
-    position: absolute;
+.robot_scheme {
+    text-align: left;
 }
