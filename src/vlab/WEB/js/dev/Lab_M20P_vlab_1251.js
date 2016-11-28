@@ -93,7 +93,7 @@ function init_lab() {
             'изменению расстояния <i>S</i><sub>2</sub>. ' +
             'Обобщенная координата <i>q<sub>4</sub></i> соответстует углу поворота схвата &phi;<sub>2</sub>.</p>' +
             '<p>Для проведения эксперимента Вы можете увеличить или уменьшить продолжительность эксперимента <i>S</i> с помощью движка. ' +
-            'Изменение отобразится на модели робота. После выбора подходящего значения осуществите эксперимент, нажав на кнопку «Запустить».</p>' +
+            'Изменение отобразится на установке. После выбора подходящего значения осуществите эксперимент, нажав на кнопку «Запустить».</p>' +
             '<p>Чтобы закончить эксперимент заранее, нажмите кнопку «Стоп». Для просмотра результатов необходимо нажать на экран на установке.</p>' +
             '<p>Чтобы посмотреть графики зависимостей обобщенных координат от времени, нажмите соответствующие кнопки. ' +
             'Точные значения следует смотреть в таблице результатов. Для перехода к ней или возвращения к установке также нажмите кнопки.</p>' +
@@ -101,6 +101,24 @@ function init_lab() {
             ' также поместив их в ячейки. Вычисления необходимо проводить с точностью до 0,0001.</p>' +
             '<p>Желаем удачи в выполнении виртуальной лабораторной работы!</p>' +
             '</div></div>';
+
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera(80, 1, 1, 1000);
+    var renderer = new THREE.WebGLRenderer();
+    var material_light_grey = new THREE.MeshBasicMaterial( {color: 0xeeeeee} );
+    var material_dark_grey = new THREE.MeshBasicMaterial( {color: 0x3d4652} );
+    var material_middle_grey = new THREE.MeshBasicMaterial( {color: 0xd0cdcd} );
+    var material_middle_dark_grey = new THREE.MeshBasicMaterial( {color: 0xb3b2b2} );
+    var part_body = new THREE.Object3D();
+    var part_tong = new THREE.Object3D();
+    var part_hand = new THREE.Object3D();
+    var cylinder_0 = new THREE.Mesh(new THREE.CylinderGeometry(2, 2, 50, 100), material_light_grey);
+    var cylinder_1 = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 15, 100), material_light_grey);
+    var cube_0 = new THREE.Mesh(new THREE.BoxGeometry(20, 2, 20), material_dark_grey);
+    var cube_1 = new THREE.Mesh(new THREE.BoxGeometry(8, 4, 8), material_middle_grey);
+    var cube_2 = new THREE.Mesh(new THREE.BoxGeometry(4, 2, 1), material_middle_dark_grey);
+    var cube_3 = new THREE.Mesh(new THREE.BoxGeometry(5, 2, 1), material_middle_dark_grey);
+    var cube_4 = new THREE.Mesh(new THREE.BoxGeometry(4, 2, 1), material_middle_dark_grey);
 
     function freeze_control_block() {
         controls_blocked = true;
@@ -145,72 +163,53 @@ function init_lab() {
     }
 
     function draw_robot(q_1, q_2, q_3, q_4) {
-        $(".robot_scheme").empty();
-        var scene = new THREE.Scene();
-        var camera = new THREE.PerspectiveCamera(80, 1, 1, 1000);
-        var renderer = new THREE.WebGLRenderer();
-        var material_light_grey = new THREE.MeshBasicMaterial( {color: 0xeeeeee} );
-        var material_dark_grey = new THREE.MeshBasicMaterial( {color: 0x3d4652} );
-        var material_middle_grey = new THREE.MeshBasicMaterial( {color: 0xd0cdcd} );
-        var cylinder_0 = new THREE.Mesh(new THREE.CylinderGeometry(2, 2, 50, 100), material_light_grey);
-        var cylinder_1 = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 15, 100), material_light_grey);
-        var cube_0 = new THREE.Mesh(new THREE.BoxGeometry(25, 2, 25), material_dark_grey);
-        var cube_1 = new THREE.Mesh(new THREE.BoxGeometry(14, 5, 14), material_middle_grey);
-        var cube_2 = new THREE.Mesh(new THREE.BoxGeometry(4, 2, 1), material_middle_grey);
-        var cube_3 = new THREE.Mesh(new THREE.BoxGeometry(5, 2, 1), material_middle_grey);
-        var cube_4 = new THREE.Mesh(new THREE.BoxGeometry(4, 2, 1), material_middle_grey);
-        renderer.setClearColor(0xffffff);
-        renderer.setSize(300, 300);
-        $(".robot_scheme").append(renderer.domElement);
-        scene.add(cylinder_1);
-        scene.add(cylinder_0);
-        scene.add(cube_1);
-        scene.add(cube_0);
-        scene.add(cube_2);
-        scene.add(cube_3);
-        scene.add(cube_4);
-        camera.position.z = 45;
-        cube_1.position.x = 2;
-        cube_1.position.y = 15;
+        var first_length = 4.1;
+        if (q_2 > 18){
+            q_2 = 18
+        }
+        if (q_3 > 18){
+            q_3 = 18
+        }
+        part_hand.remove(cylinder_1);
+        cylinder_1 = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, q_3, 100), material_light_grey);
+        part_hand.add(cylinder_1);
+        part_body.rotation.y = Math.PI / 8;
         cube_0.position.y = -25;
-        cylinder_1.position.x = 6;
-        cylinder_1.position.z = 12;
-        cylinder_1.position.y = 15;
-        cube_2.position.y = 15;
-        cube_3.position.y = 15;
-        cube_4.position.y = 15;
-        cube_2.position.x = 3.5;
-        cube_2.position.z = 21.5;
-        cube_3.position.x = 6;
-        cube_3.position.z = 20;
-        cube_4.position.x = 8.5;
-        cube_4.position.z = 21.5;
+        cylinder_1.position.z = first_length + q_3 / 4;
         cylinder_1.rotation.x = Math.PI/2;
+        cube_2.position.z = 1.5;
+        cube_2.position.x = -2.5;
+        cube_4.position.x = 2.5;
+        cube_4.position.z = 1.5;
         cube_2.rotation.y = Math.PI/2;
         cube_4.rotation.y = Math.PI/2;
+        part_tong.position.z = cylinder_1.position.z +  q_3 / 2;
+        part_tong.rotation.z = -q_4;
+        part_hand.position.y = q_2;
+        part_hand.rotation.y = q_1;
         renderer.render(scene, camera);
     }
 
-    // function animate_robot(data, i) {
-    //     var diff_time;
-    //     if (i === 0) {
-    //         diff_time = data[i][0] * 1000;
-    //     } else {
-    //         diff_time = (data[i][0] - data[i - 1][0]) * 1000;
-    //     }
-    //     i++;
-    //     if (i < data.length) {
-    //         robot_timeout = setTimeout(function () {
-    //             draw_robot(data[i][1], data[i][2], data[i][3], data[i][4]);
-    //             animate_robot(data, i);
-    //         }, diff_time);
-    //     } else {
-    //         robot_timeout = setTimeout(function () {
-    //             draw_robot(0, 0, 0, 0);
-    //             unfreeze_control_block();
-    //         }, diff_time);
-    //     }
-    // }
+    function animate_robot(data, i) {
+        var diff_time;
+        if (i === 0) {
+            diff_time = data[i][0] * 1000;
+        } else {
+            diff_time = (data[i][0] - data[i - 1][0]) * 1000;
+        }
+        i++;
+        if (i < data.length) {
+            robot_timeout = setTimeout(function () {
+                draw_robot(data[i][1], data[i][2], data[i][3], data[i][4]);
+                animate_robot(data, i);
+            }, diff_time);
+        } else {
+            robot_timeout = setTimeout(function () {
+                draw_robot(data[data.length-1][1], data[data.length-1][2], data[data.length-1][3], data[data.length-1][4]);
+                unfreeze_control_block();
+            }, diff_time);
+        }
+    }
 
     function draw_small_plot() {
         var canvas = $(".robot_graphics_canvas")[0];
@@ -343,8 +342,6 @@ function init_lab() {
                 put_seconds(t);
                 animate_clock(t)
             }, 1000);
-        } else {
-            unfreeze_control_block();
         }
     }
 
@@ -361,7 +358,7 @@ function init_lab() {
     function animate_installation() {
         put_seconds(experiment_time);
         animate_clock(experiment_time);
-        // animate_robot(lab_animation_data, 0);
+        animate_robot(lab_animation_data, 0);
     }
 
     function launch() {
@@ -436,7 +433,21 @@ function init_lab() {
             lab_variant = get_variant();
             container = $("#jsLab")[0];
             container.innerHTML = window;
-            draw_robot(0, 0, 0, 0);
+            renderer.setClearColor(0xffffff);
+            renderer.setSize(300, 300);
+            camera.position.z = 45;
+            $(".robot_scheme").append(renderer.domElement);
+            scene.add(part_body);
+            part_tong.add(cube_2);
+            part_tong.add(cube_3);
+            part_tong.add(cube_4);
+            part_hand.add(cube_1);
+            part_hand.add(cylinder_1);
+            part_hand.add(part_tong);
+            part_body.add(cube_0);
+            part_body.add(cylinder_0);
+            part_body.add(part_hand);
+            draw_robot(0, 15, 15, 0);
             $(".control_stop").addClass("not_active");
             $(".mass1_value").html(lab_variant.mass_1);
             $(".mass2_value").html(lab_variant.mass_2);
